@@ -53,7 +53,7 @@ http_cmd_handler (pinentry_t pinentry)
   char *data = secmem_malloc(4096);
 
   /* Open the command for reading. */
-  fp = popen("curl http://localhost:46727", "r");
+  fp = popen("curl http://localhost:46727 2>/dev/null", "r");
   if (fp == NULL)
   {
     printf("Failed to run command\n");
