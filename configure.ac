@@ -351,6 +351,20 @@ fi
 
 
 dnl
+dnl Check for http pinentry program.
+dnl
+AC_ARG_ENABLE(pinentry-http,
+            AS_HELP_STRING([--enable-pinentry-http],[build http pinentry]),
+            pinentry_http=$enableval, pinentry_http=maybe)
+AM_CONDITIONAL(BUILD_PINENTRY_HTTP, test "$pinentry_http" = "yes")
+
+if test "$pinentry_http" = "yes"; then
+  AC_DEFINE(PINENTRY_HTTP, 1,
+           [The HTTP version of Pinentry is to be build])
+fi
+
+
+dnl
 dnl Additional checks pinentry Curses.
 dnl
 if test "$pinentry_curses" = "yes" \
@@ -682,7 +696,11 @@ else
                 if test "$pinentry_efl" = "yes"; then
                   PINENTRY_DEFAULT=pinentry-efl
                 else
-                  AC_MSG_ERROR([[No pinentry enabled.]])
+                  if test "$pinentry_http" = "yes"; then
+                    PINENTRY_DEFAULT=pinentry-http
+                  else
+                    AC_MSG_ERROR([[No pinentry enabled.]])
+                  fi
                 fi
               fi
             fi
@@ -773,6 +791,7 @@ qt/Makefile
 tqt/Makefile
 w32/Makefile
 fltk/Makefile
+http/Makefile
 doc/Makefile
 Makefile
 ])
@@ -796,6 +815,7 @@ AC_MSG_NOTICE([
 	TQt Pinentry .....: $pinentry_tqt
 	W32 Pinentry .....: $pinentry_w32
 	FLTK Pinentry ....: $pinentry_fltk
+	HTTP Pinentry .....: $pinentry_http
 
 	Fallback to Curses: $fallback_curses
 	Emacs integration : $inside_emacs

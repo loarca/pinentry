@@ -40,6 +40,12 @@ else
 pinentry_tty =
 endif
 
+if BUILD_PINENTRY_HTTP
+pinentry_http = http
+else
+pinentry_http =
+endif
+
 if BUILD_PINENTRY_EMACS
 pinentry_emacs = emacs
 else
@@ -97,7 +103,7 @@ endif
 SUBDIRS = m4 secmem pinentry ${pinentry_curses} ${pinentry_tty} \
 	${pinentry_emacs} ${pinentry_gtk_2} ${pinentry_gnome_3} \
 	${pinentry_qt} ${pinentry_tqt} ${pinentry_w32} \
-	${pinentry_fltk} ${pinentry_efl} ${doc}
+	${pinentry_fltk} ${pinentry_efl} ${doc} ${pinentry_http}
 
 
 install-exec-local:
